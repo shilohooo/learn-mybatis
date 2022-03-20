@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <!--
+    加载jdbc数据库链接配置文件：
+      resource属性指定jdbc配置文件的在classpath下的位置
+  -->
+  <properties resource="jdbc.properties"/>
+
+  <!--
+    实体类别名配置：
+      package标签：以包为作用域配置可以使用别名的实体类有哪些
+  -->
+  <typeAliases>
+    <package name="org.shiloh.entity"/>
+  </typeAliases>
+
+  <!--  环境配置-->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <!--  mapper扫描路径-->
+  <mappers>
+    <package name="org.shiloh.mapper"/>
+  </mappers>
+</configuration>
