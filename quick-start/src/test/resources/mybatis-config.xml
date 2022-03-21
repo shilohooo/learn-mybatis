@@ -5,7 +5,23 @@
 <!--
   MyBatis 配置文件包含了影响 MyBatis 行为的设置和属性，文档顶层结构如下：
     - configuration（配置：根标签）
+
       - properties （属性）
+        - 可以配置属性以供其他标签使用
+          - 可以在.properties配置好属性后使用 resource 属性引入
+          - 也可以在子标签 <property name="" value=""></property>中配置属性的名称和值
+          - 引入属性的方式为：${propertyName}，比如：
+            - <properties resource="jdbc.properties" />
+
+              <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+              </dataSource>
+
+              上面这个例子中的driver、url、username、password属性将会由 jdbc.properties 文件中对应的值来替换。
+
       - settings （设置）
       - typeAliases （类型别名）
       - typeHandlers （类型处理器）
