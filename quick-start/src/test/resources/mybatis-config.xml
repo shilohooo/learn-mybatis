@@ -22,6 +22,12 @@
 
               上面这个例子中的driver、url、username、password属性将会由 jdbc.properties 文件中对应的值来替换。
 
+        - 如果一个属性在不只一个地方进行了配置，那么，MyBatis 将按照下面的顺序来加载：
+            - 首先读取在 properties 元素体内指定的属性。
+            - 然后根据 properties 元素中的 resource 属性读取类路径下属性文件，或根据 url 属性指定的路径读取属性文件，并覆盖之前读取过的同名属性。
+            - 最后读取作为方法参数传递的属性，并覆盖之前读取过的同名属性。
+          因此，通过方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的则是 properties 元素中指定的属性。
+
       - settings （设置）
       - typeAliases （类型别名）
       - typeHandlers （类型处理器）
