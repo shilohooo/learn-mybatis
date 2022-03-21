@@ -7,28 +7,9 @@
     - configuration（配置：根标签）
 
       - properties （属性）
-        - 可以配置属性以供其他标签使用
-          - 可以在.properties配置好属性后使用 resource 属性引入
-          - 也可以在子标签 <property name="" value=""></property>中配置属性的名称和值
-          - 引入属性的方式为：${propertyName}，比如：
-            - <properties resource="jdbc.properties" />
-
-              <dataSource type="POOLED">
-                <property name="driver" value="${jdbc.driver}"/>
-                <property name="url" value="${jdbc.url}"/>
-                <property name="username" value="${jdbc.username}"/>
-                <property name="password" value="${jdbc.password}"/>
-              </dataSource>
-
-              上面这个例子中的driver、url、username、password属性将会由 jdbc.properties 文件中对应的值来替换。
-
-        - 如果一个属性在不只一个地方进行了配置，那么，MyBatis 将按照下面的顺序来加载：
-            - 首先读取在 properties 元素体内指定的属性。
-            - 然后根据 properties 元素中的 resource 属性读取类路径下属性文件，或根据 url 属性指定的路径读取属性文件，并覆盖之前读取过的同名属性。
-            - 最后读取作为方法参数传递的属性，并覆盖之前读取过的同名属性。
-          因此，通过方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的则是 properties 元素中指定的属性。
-
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#properties
       - settings （设置）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#settings
       - typeAliases （类型别名）
       - typeHandlers （类型处理器）
       - objectFactory （对象工厂）
