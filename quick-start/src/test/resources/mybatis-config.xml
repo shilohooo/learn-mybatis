@@ -11,15 +11,22 @@
       - settings （设置）
         - see: https://mybatis.org/mybatis-3/zh/configuration.html#settings
       - typeAliases （类型别名）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#typeAliases
       - typeHandlers （类型处理器）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#typeHandlers
       - objectFactory （对象工厂）
+        - https://mybatis.org/mybatis-3/zh/configuration.html#objectFactory
       - plugins （插件配置）
+        - https://mybatis.org/mybatis-3/zh/configuration.html#plugins
       - environments （环境配置）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#environments
           - environment（环境变量）
           - transactionManager （事务管理器）
           - dataSource （数据源配置）
       - databaseIdProvider （数据库厂商标识）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#databaseIdProvider
       - mappers （映射器）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#mappers
 -->
 <configuration>
   <!--
