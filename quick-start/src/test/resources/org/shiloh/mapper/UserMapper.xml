@@ -2,6 +2,11 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+  命名空间的作用：
+    1.利用更长的全限定名来将不同的语句隔离开来，同时也实现了接口绑定。
+    2.只要将命名空间置于合适的 Java 包命名空间之中，代码会变得更加整洁，也有利于更方便地使用 MyBatis 。
+-->
 <mapper namespace="org.shiloh.mapper.UserMapper">
   <select id="findAll" resultType="User">
     select * from learn_mybatis3.t_user;
