@@ -23,4 +23,23 @@
     select *
     from learn_mybatis3.t_user;
   </select>
+
+  <!--
+    id：SQL语句的在命名空间中的标识，应用接口方法名称保持一直
+    parameterType：SQL语句接受的参数的类型
+    resultType：执行该SQL语句后返回结果的类型
+    #{id}：#{}为参数占位符，#{}占位符使用预处理语句（PreparedStatement）处理参数，在JDBC中，这样的一个参数在SQL
+    中会由一个英文问号 ? 来标识，并被传递到一个新的预处理语句中，就像下面这样：
+      final String sql = "select * from t_user where id = ?";
+      final PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setInt(1, id);
+
+    select元素还可以配置很多属性来决定查询语句的行为，具体请参考官方文档：
+    https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#select
+  -->
+  <select id="findById" parameterType="Long" resultType="User">
+    select *
+    from learn_mybatis3.t_user
+    where id = #{id}
+  </select>
 </mapper>
