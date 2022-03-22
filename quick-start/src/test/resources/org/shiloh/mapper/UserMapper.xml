@@ -8,7 +8,19 @@
     2.只要将命名空间置于合适的 Java 包命名空间之中，代码会变得更加整洁，也有利于更方便地使用 MyBatis 。
 -->
 <mapper namespace="org.shiloh.mapper.UserMapper">
+  <!--
+    MyBatis SQL映射文件中的顶级元素（按定义顺序列出）：
+      - cache：当前命名空间的缓存配置
+      - cache-ref：引用其他命名空间的缓存配置
+      - resultMap：描述如何从数据库结果中加载对象数据
+      - sql：可被其他语句引用的可重用语句块
+      - insert：映射插入语句
+      - update：映射更新语句
+      - delete：映射删除语句
+      - select：映射查询语句
+  -->
   <select id="findAll" resultType="User">
-    select * from learn_mybatis3.t_user;
+    select *
+    from learn_mybatis3.t_user;
   </select>
 </mapper>
