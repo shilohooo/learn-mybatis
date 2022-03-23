@@ -70,4 +70,18 @@
         email    = #{email}
     where id = #{id}
   </update>
+
+  <!--
+    新增用户信息并获取自动生成的主键值：
+      useGeneratedKeys：将该属性设置为 true，MyBatis 会使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键。
+      （比如：像 MySQL 和 SQL Server 这样的关系型数据库的自动递增自动），该属性的默认值为 false
+      keyProperty：指定能够唯一识别对象的属性，MyBatis 会使用 getGeneratedKeys 的返回值或 insert 语句的 selectKey 子元素设置它的
+      值，该属性的默认值为未设置（unset）。如果生成列不止一个，可以使用逗号 , 分隔多个属性名称。
+
+    当该SQL语句执行成功后，自动生成的主键值将会被设置到参数 User 对象的 id 属性中
+  -->
+  <insert id="insertAngGetPrimaryKey" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+    insert into learn_mybatis3.t_user(username, password, sex, email)
+    VALUES (#{username}, #{password}, #{sex}, #{email})
+  </insert>
 </mapper>

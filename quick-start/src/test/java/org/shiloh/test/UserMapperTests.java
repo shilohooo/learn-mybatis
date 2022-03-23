@@ -154,4 +154,28 @@ public class UserMapperTests {
             Assert.assertEquals(1, result);
         }
     }
+
+    /**
+     * 测试新增用户信息并获取自动生成的主键
+     *
+     * @author shiloh
+     * @date 2022/3/23 15:27
+     */
+    @Test
+    public void testAddUserAndGetPrimaryKey() throws Exception {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (final SqlSession sqlSession = factory.openSession(true)) {
+            // 从Session中获取Mapper
+            final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            // 执行SQL
+            final User user = new User(null, "Mark123", "123456", 1, "mark123@qq.com");
+            userMapper.insertAngGetPrimaryKey(user);
+            System.out.println(user);
+        }
+    }
 }

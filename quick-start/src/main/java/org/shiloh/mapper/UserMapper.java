@@ -60,4 +60,13 @@ public interface UserMapper {
      * @date 2022/3/23 15:33
      */
     int update(User user);
+
+    /**
+     * 新增用户信息并获取自动生成的主键
+     *
+     * @param user 用户信息
+     * @author shiloh
+     * @date 2022/3/23 15:59
+     */
+    void insertAngGetPrimaryKey(User user);
 }
