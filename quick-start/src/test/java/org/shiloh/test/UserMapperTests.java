@@ -83,4 +83,75 @@ public class UserMapperTests {
             System.out.println(user);
         }
     }
+
+    /**
+     * 测试新增用户信息
+     *
+     * @author shiloh
+     * @date 2022/3/23 15:27
+     */
+    @Test
+    public void testAddUser() throws Exception {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (final SqlSession sqlSession = factory.openSession(true)) {
+            // 从Session中获取Mapper
+            final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            // 执行SQL
+            final User user = new User(null, "Bruce Lee", "123456", 1, "bruce@qq.com");
+            final int result = userMapper.insert(user);
+            Assert.assertEquals(1, result);
+        }
+    }
+
+    /**
+     * 测试根据ID删除用户信息
+     *
+     * @author shiloh
+     * @date 2022/3/23 15:32
+     */
+    @Test
+    public void testDeleteUserById() throws Exception {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (final SqlSession sqlSession = factory.openSession(true)) {
+            // 从Session中获取Mapper
+            final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            // 执行SQL
+            final int result = userMapper.deleteById(3L);
+            Assert.assertEquals(1, result);
+        }
+    }
+
+    /**
+     * 测试更新用户信息
+     *
+     * @author shiloh
+     * @date 2022/3/23 15:44
+     */
+    @Test
+    public void testUpdateUser() throws Exception {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (final SqlSession sqlSession = factory.openSession(true)) {
+            // 从Session中获取Mapper
+            final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            // 执行SQL
+            final User user = new User(1L, "老李头", "123456", 1, "laolitou@qq.com");
+            final int result = userMapper.update(user);
+            Assert.assertEquals(1, result);
+        }
+    }
 }

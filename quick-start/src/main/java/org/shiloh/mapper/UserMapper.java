@@ -30,4 +30,34 @@ public interface UserMapper {
      * @date 2022/3/22 19:13
      */
     User findById(@Param("id") Long id);
+
+    /**
+     * 新增用户信息
+     *
+     * @param user 用户信息
+     * @return 受影响行数
+     * @author shiloh
+     * @date 2022/3/23 15:22
+     */
+    int insert(User user);
+
+    /**
+     * 根据ID删除用户信息
+     *
+     * @param id ID
+     * @return 受影响的行数
+     * @author shiloh
+     * @date 2022/3/23 15:30
+     */
+    int deleteById(Long id);
+
+    /**
+     * 根据ID更新用户信息
+     *
+     * @param user 用户信息
+     * @return 受影响的行数
+     * @author shiloh
+     * @date 2022/3/23 15:33
+     */
+    int update(User user);
 }

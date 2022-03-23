@@ -42,4 +42,31 @@
     from learn_mybatis3.t_user
     where id = #{id}
   </select>
+
+  <!--
+
+  -->
+
+  <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
+  <insert id="insert" parameterType="User">
+    insert into learn_mybatis3.t_user(username, password, sex, email)
+    VALUES (#{username}, #{password}, #{sex}, #{email})
+  </insert>
+
+  <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
+  <delete id="deleteById" parameterType="Long">
+    delete
+    from learn_mybatis3.t_user
+    where id = #{id}
+  </delete>
+
+  <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
+  <update id="update" parameterType="User">
+    update learn_mybatis3.t_user
+    set username = #{username},
+        password = #{password},
+        sex      = #{sex},
+        email    = #{email}
+    where id = #{id}
+  </update>
 </mapper>
