@@ -1,6 +1,8 @@
 package org.shiloh.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 用户信息实体
@@ -9,6 +11,8 @@ import lombok.Data;
  * @date 2022/3/20 12:00
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     /**
      * ID
