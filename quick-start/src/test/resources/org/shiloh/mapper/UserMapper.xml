@@ -44,10 +44,6 @@
     where id = #{id}
   </select>
 
-  <!--
-
-  -->
-
   <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
   <insert id="insert" parameterType="User">
     insert into learn_mybatis3.t_user(username, password, sex, email)
