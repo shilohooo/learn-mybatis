@@ -47,6 +47,10 @@
 
       select元素还可以配置很多属性来决定查询语句的行为，具体请参考官方文档：
       https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#select
+
+      sql语句中的参数: 该例子使用的是简单的命名参数映射, 根据属性 parameterType 的值, 参数的数据类型将被自动设置为 Long
+      当sql语句只有一个参数时, 这个参数可以随意命名. 原始类型或简单数据类型(比如 Integer 和 String), 因为没有其他属性,
+      mybatis会直接使用它们的值来作为参数.
     -->
     <select id="findById" parameterType="Long" resultType="User">
         select *
@@ -55,6 +59,10 @@
     </select>
 
     <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
+    <!--
+        sql语句中的参数: 当使用一个复杂的对象作为参数时, 会查找指定的属性, 然后将它们的值传入预处理语句的参数中.
+        该例子中使用到了 User 对象作为参数, 且需要查找它的 username, password, sex, email属性.
+    -->
     <insert id="insert" parameterType="User">
         insert into learn_mybatis3.t_user(username, password, sex, email)
         VALUES (#{username}, #{password}, #{sex}, #{email})
