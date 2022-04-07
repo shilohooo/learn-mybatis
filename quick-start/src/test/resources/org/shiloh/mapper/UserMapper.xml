@@ -9,6 +9,26 @@
 -->
 <mapper namespace="org.shiloh.mapper.UserMapper">
     <!--
+        resultMap 元素:
+            mybatis 中最重要且最强大的元素, 可以让用户从90%的 JDBC ResultSets 数据提取代码解放出来,
+            并在一些情形下允许用户进行一些 JDBC 不支持的操作.
+            对于简单的语句, resultMap 可以做到零配置, 对于复杂一点带语句, 则只需要描述语句之间的关系即可.
+            在一些简单的查询语句中, mybatis 会自动创建一个 resultMap, 再根据属性名来映射列到 JavaBean 的属性上.
+            如果列名和属性名不能匹配上, 可以在 SELECT 语句中设置列的别名来完成匹配.
+
+        resultMap的属性:
+            id: resultMap 元素在 mapper 文件中的唯一标识, 当 select 元素需要引用 resultMap 配置时,
+            需要通过该属性的值来引用.
+            type: resultMap 的返回类型, 支持类型别名.
+    -->
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+    </resultMap>
+    <!--
       sql元素: 用于定义可重用的SQL代码片段, 在其他语句中通过以下方式使用:
         <include refid="userColumn"/>
     -->
@@ -27,7 +47,7 @@
         - delete：映射删除语句
         - select：映射查询语句
     -->
-    <select id="findAll" resultType="User">
+    <select id="findAll" resultMap="userResultMap">
         select
         <!-- 引用预定义的sql代码片段 -->
         <include refid="userColumns"/>
