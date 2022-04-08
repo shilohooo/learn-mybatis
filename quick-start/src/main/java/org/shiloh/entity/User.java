@@ -40,6 +40,13 @@ public class User {
     private String email;
 
     /**
+     * 部门ID
+     *
+     * @see Dept#getId()
+     */
+    private Long deptId;
+
+    /**
      * 所属部门
      */
     private Dept dept;
