@@ -1,129 +1,134 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--
   命名空间的作用：
     1.利用更长的全限定名来将不同的语句隔离开来，同时也实现了接口绑定。
     2.只要将命名空间置于合适的 Java 包命名空间之中，代码会变得更加整洁，也有利于更方便地使用 MyBatis 。
 -->
 <mapper namespace="org.shiloh.mapper.UserMapper">
+  <!--
+      resultMap 元素:
+          mybatis 中最重要且最强大的元素, 可以让用户从90%的 JDBC ResultSets 数据提取代码解放出来,
+          并在一些情形下允许用户进行一些 JDBC 不支持的操作.
+          对于简单的语句, resultMap 可以做到零配置, 对于复杂一点带语句, 则只需要描述语句之间的关系即可.
+          在一些简单的查询语句中, mybatis 会自动创建一个 resultMap, 再根据属性名来映射列到 JavaBean 的属性上.
+          如果列名和属性名不能匹配上, 可以在 SELECT 语句中设置列的别名来完成匹配.
+
+      resultMap的属性:
+          id: resultMap 元素在当前命名空间中的唯一标识, 当 select 元素需要引用 resultMap 配置时,
+          需要通过该属性的值来引用.
+          type: resultMap 的返回类型, 支持类型别名.
+  -->
+  <resultMap id="userResultMap" type="User">
     <!--
-        resultMap 元素:
-            mybatis 中最重要且最强大的元素, 可以让用户从90%的 JDBC ResultSets 数据提取代码解放出来,
-            并在一些情形下允许用户进行一些 JDBC 不支持的操作.
-            对于简单的语句, resultMap 可以做到零配置, 对于复杂一点带语句, 则只需要描述语句之间的关系即可.
-            在一些简单的查询语句中, mybatis 会自动创建一个 resultMap, 再根据属性名来映射列到 JavaBean 的属性上.
-            如果列名和属性名不能匹配上, 可以在 SELECT 语句中设置列的别名来完成匹配.
-
-        resultMap的属性:
-            id: resultMap 元素在 mapper 文件中的唯一标识, 当 select 元素需要引用 resultMap 配置时,
-            需要通过该属性的值来引用.
-            type: resultMap 的返回类型, 支持类型别名.
+        id标签: 通常用于主键的映射
+            property属性的值对应JavaBean的字段名称
+            column属性的值对应数据库表的列名称
     -->
-    <resultMap id="userResultMap" type="User">
-        <id property="id" column="id"/>
-        <result property="username" column="username"/>
-        <result property="password" column="password"/>
-        <result property="sex" column="sex"/>
-        <result property="email" column="email"/>
-    </resultMap>
+    <id property="id" column="id"/>
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <result property="sex" column="sex"/>
+    <result property="email" column="email"/>
+  </resultMap>
+  <!--
+    sql元素: 用于定义可重用的SQL代码片段, 在其他语句中通过以下方式使用:
+      <include refid="userColumn"/>
+  -->
+  <sql id="userColumns">
+    id
+    , username, password, sex, email
+  </sql>
+  <!--
+    MyBatis SQL映射文件中的顶级元素（按定义顺序列出）：
+      - cache：当前命名空间的缓存配置
+      - cache-ref：引用其他命名空间的缓存配置
+      - resultMap：描述如何从数据库结果中加载对象数据
+      - sql：可被其他语句引用的可重用语句块
+      - insert：映射插入语句
+      - update：映射更新语句
+      - delete：映射删除语句
+      - select：映射查询语句
+  -->
+  <select id="findAll" resultMap="userResultMap">
+    select
+    <!-- 引用预定义的sql代码片段 -->
+    <include refid="userColumns"/>
+    from learn_mybatis3.t_user;
+  </select>
+
+  <!--
+    id：SQL语句的在命名空间中的唯一标识，应该和接口方法名称保持一直，该标识可以被用来引用这条SQL语句
+    parameterType：将会传入这条SQL语句的参数的全限定类名或别名，该属性为可选属性，因为 MyBatis 可以通过类型处理器（TypeHandler）
+    推断出具体传入语句的参数类型，默认值为未设置（unset）
+    resultType：执行该SQL语句后返回结果的类型
+    #{id}：#{}为参数占位符，#{}占位符使用预处理语句（PreparedStatement）处理参数，在JDBC中，这样的一个参数在SQL
+    中会由一个英文问号 ? 来标识，并被传递到一个新的预处理语句中，就像下面这样：
+      final String sql = "select * from t_user where id = ?";
+      final PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setInt(1, id);
+
+    select元素还可以配置很多属性来决定查询语句的行为，具体请参考官方文档：
+    https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#select
+
+    sql语句中的参数: 该例子使用的是简单的命名参数映射, 根据属性 parameterType 的值, 参数的数据类型将被自动设置为 Long
+    当sql语句只有一个参数时, 这个参数可以随意命名. 原始类型或简单数据类型(比如 Integer 和 String), 因为没有其他属性,
+    mybatis会直接使用它们的值来作为参数.
+  -->
+  <select id="findById" parameterType="Long" resultType="User">
+    select *
+    from learn_mybatis3.t_user
+    where id = #{id}
+  </select>
+
+  <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
+  <!--
+      sql语句中的参数: 当使用一个复杂的对象作为参数时, 会查找指定的属性, 然后将它们的值传入预处理语句的参数中.
+      该例子中使用到了 User 对象作为参数, 且需要查找它的 username, password, sex, email属性.
+  -->
+  <insert id="insert" parameterType="User">
+    insert into learn_mybatis3.t_user(username, password, sex, email)
+    VALUES (#{username}, #{password}, #{sex}, #{email})
+  </insert>
+
+  <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
+  <delete id="deleteById" parameterType="Long">
+    delete
+    from learn_mybatis3.t_user
+    where id = #{id}
+  </delete>
+
+  <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
+  <update id="update" parameterType="User">
+    update learn_mybatis3.t_user
+    set username = #{username},
+    password = #{password},
+    sex = #{sex},
+    email = #{email}
+    where id = #{id}
     <!--
-      sql元素: 用于定义可重用的SQL代码片段, 在其他语句中通过以下方式使用:
-        <include refid="userColumn"/>
+        参数占位符: #{}, 默认情况下, 使用 #{} 参数语法时, mybatis会创建 PrepareStatement 参数占位符,
+        并通过占位符安全地设置参数(就像使用 ? 一样).
+        这是官方推荐的做法, 安全且迅速, 可以自动为字符串参数添加单引号.
+        当想直接在sql语句上直接插入一个不转义的字符串时, 可以使用 ${} 参数语法
+        对于 ${} 参数语法, mybatis不会修改或转义字符串, 需要手动添加双引号.
+        使用 ${} 参数语法是不安全的, 会导致潜在的SQL注入问题, 需要自行转义并校验参数.
     -->
-    <sql id="userColumns">
-        id
-        , username, password, sex, email
-    </sql>
-    <!--
-      MyBatis SQL映射文件中的顶级元素（按定义顺序列出）：
-        - cache：当前命名空间的缓存配置
-        - cache-ref：引用其他命名空间的缓存配置
-        - resultMap：描述如何从数据库结果中加载对象数据
-        - sql：可被其他语句引用的可重用语句块
-        - insert：映射插入语句
-        - update：映射更新语句
-        - delete：映射删除语句
-        - select：映射查询语句
-    -->
-    <select id="findAll" resultMap="userResultMap">
-        select
-        <!-- 引用预定义的sql代码片段 -->
-        <include refid="userColumns"/>
-        from learn_mybatis3.t_user;
-    </select>
+  </update>
 
-    <!--
-      id：SQL语句的在命名空间中的唯一标识，应该和接口方法名称保持一直，该标识可以被用来引用这条SQL语句
-      parameterType：将会传入这条SQL语句的参数的全限定类名或别名，该属性为可选属性，因为 MyBatis 可以通过类型处理器（TypeHandler）
-      推断出具体传入语句的参数类型，默认值为未设置（unset）
-      resultType：执行该SQL语句后返回结果的类型
-      #{id}：#{}为参数占位符，#{}占位符使用预处理语句（PreparedStatement）处理参数，在JDBC中，这样的一个参数在SQL
-      中会由一个英文问号 ? 来标识，并被传递到一个新的预处理语句中，就像下面这样：
-        final String sql = "select * from t_user where id = ?";
-        final PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
+  <!--
+    新增用户信息并获取自动生成的主键值：
+      useGeneratedKeys：将该属性设置为 true，MyBatis 会使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键。
+      （比如：像 MySQL 和 SQL Server 这样的关系型数据库的自动递增自动），该属性的默认值为 false
+      keyProperty：指定能够唯一识别对象的属性，MyBatis 会使用 getGeneratedKeys 的返回值或 insert 语句的 selectKey 子元素设置它的
+      值，该属性的默认值为未设置（unset）。如果生成列不止一个，可以使用逗号 , 分隔多个属性名称。
 
-      select元素还可以配置很多属性来决定查询语句的行为，具体请参考官方文档：
-      https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#select
-
-      sql语句中的参数: 该例子使用的是简单的命名参数映射, 根据属性 parameterType 的值, 参数的数据类型将被自动设置为 Long
-      当sql语句只有一个参数时, 这个参数可以随意命名. 原始类型或简单数据类型(比如 Integer 和 String), 因为没有其他属性,
-      mybatis会直接使用它们的值来作为参数.
-    -->
-    <select id="findById" parameterType="Long" resultType="User">
-        select *
-        from learn_mybatis3.t_user
-        where id = #{id}
-    </select>
-
-    <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
-    <!--
-        sql语句中的参数: 当使用一个复杂的对象作为参数时, 会查找指定的属性, 然后将它们的值传入预处理语句的参数中.
-        该例子中使用到了 User 对象作为参数, 且需要查找它的 username, password, sex, email属性.
-    -->
-    <insert id="insert" parameterType="User">
-        insert into learn_mybatis3.t_user(username, password, sex, email)
-        VALUES (#{username}, #{password}, #{sex}, #{email})
-    </insert>
-
-    <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
-    <delete id="deleteById" parameterType="Long">
-        delete
-        from learn_mybatis3.t_user
-        where id = #{id}
-    </delete>
-
-    <!-- see: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#insert_update_and_delete -->
-    <update id="update" parameterType="User">
-        update learn_mybatis3.t_user
-        set username = #{username},
-            password = #{password},
-            sex      = #{sex},
-            email    = #{email}
-        where id = #{id}
-        <!--
-            参数占位符: #{}, 默认情况下, 使用 #{} 参数语法时, mybatis会创建 PrepareStatement 参数占位符,
-            并通过占位符安全地设置参数(就像使用 ? 一样).
-            这是官方推荐的做法, 安全且迅速, 可以自动为字符串参数添加单引号.
-            当想直接在sql语句上直接插入一个不转义的字符串时, 可以使用 ${} 参数语法
-            对于 ${} 参数语法, mybatis不会修改或转义字符串, 需要手动添加双引号.
-            使用 ${} 参数语法是不安全的, 会导致潜在的SQL注入问题, 需要自行转义并校验参数.
-        -->
-    </update>
-
-    <!--
-      新增用户信息并获取自动生成的主键值：
-        useGeneratedKeys：将该属性设置为 true，MyBatis 会使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键。
-        （比如：像 MySQL 和 SQL Server 这样的关系型数据库的自动递增自动），该属性的默认值为 false
-        keyProperty：指定能够唯一识别对象的属性，MyBatis 会使用 getGeneratedKeys 的返回值或 insert 语句的 selectKey 子元素设置它的
-        值，该属性的默认值为未设置（unset）。如果生成列不止一个，可以使用逗号 , 分隔多个属性名称。
-
-      当该SQL语句执行成功后，自动生成的主键值将会被设置到参数 User 对象的 id 属性中
-    -->
-    <insert id="insertAngGetPrimaryKey" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into learn_mybatis3.t_user(username, password, sex, email)
-        VALUES (#{username}, #{password}, #{sex}, #{email})
-    </insert>
+    当该SQL语句执行成功后，自动生成的主键值将会被设置到参数 User 对象的 id 属性中
+  -->
+  <insert id="insertAngGetPrimaryKey" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+    insert into learn_mybatis3.t_user(username, password, sex, email)
+    VALUES (#{username}, #{password}, #{sex}, #{email})
+  </insert>
 </mapper>
