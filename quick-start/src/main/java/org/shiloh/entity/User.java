@@ -38,4 +38,9 @@ public class User {
      * 电子邮箱
      */
     private String email;
+
+    /**
+     * 所属部门
+     */
+    private Dept dept;
 }
