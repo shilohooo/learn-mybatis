@@ -102,7 +102,7 @@ public class UserMapperTests {
             // 从Session中获取Mapper
             final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             // 执行SQL
-            final User user = new User(null, "Bruce Lee", "123456", 1, "bruce@qq.com", null);
+            final User user = new User(null, "Bruce Lee", "123456", 1, "bruce@qq.com", 1L, null);
             final int result = userMapper.insert(user);
             Assert.assertEquals(1, result);
         }
@@ -149,7 +149,7 @@ public class UserMapperTests {
             // 从Session中获取Mapper
             final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             // 执行SQL
-            final User user = new User(1L, "老李头", "123456", 1, "laolitou@qq.com", null);
+            final User user = new User(1L, "老李头", "123456", 1, "laolitou@qq.com", 1L, null);
             final int result = userMapper.update(user);
             Assert.assertEquals(1, result);
         }
@@ -173,7 +173,7 @@ public class UserMapperTests {
             // 从Session中获取Mapper
             final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             // 执行SQL
-            final User user = new User(null, "Mark123", "123456", 1, "mark123@qq.com", null);
+            final User user = new User(null, "Mark123", "123456", 1, "mark123@qq.com", 1L, null);
             userMapper.insertAngGetPrimaryKey(user);
             System.out.println(user);
         }
