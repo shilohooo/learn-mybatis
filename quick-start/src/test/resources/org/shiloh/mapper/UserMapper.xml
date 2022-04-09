@@ -131,4 +131,29 @@
     insert into learn_mybatis3.t_user(username, password, sex, email)
     VALUES (#{username}, #{password}, #{sex}, #{email})
   </insert>
+
+  <resultMap id="userJoinDeptResultMap" type="User">
+    <id column="id" property="id"/>
+    <result column="username" property="username"/>
+    <result column="password" property="password"/>
+    <result column="sex" property="sex"/>
+    <result column="email" property="email"/>
+    <result column="dept_id" property="deptId"/>
+    <!--
+      association 标签: 通常用于设置一对一关联/多对一关联中的一方的嵌套结果映射
+        property 属性: 用于设置一方在多方或另一方中的字段名称
+        javaType 属性: 用于设置类型, 可以是全限定类名或者类型别名
+        标签内的 id, result 子标签用法与 resultMap 一致.
+    -->
+    <association property="dept" javaType="Dept">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+    </association>
+  </resultMap>
+  <select id="findByIdJoinDept" parameterType="Long" resultMap="userJoinDeptResultMap">
+    select *
+    from t_user
+           left join t_dept on t_user.dept_id = t_dept.id
+    where t_user.id = #{id}
+  </select>
 </mapper>

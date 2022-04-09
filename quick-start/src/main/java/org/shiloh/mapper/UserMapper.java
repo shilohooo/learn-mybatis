@@ -69,4 +69,13 @@ public interface UserMapper {
      * @date 2022/3/23 15:59
      */
     void insertAngGetPrimaryKey(User user);
+
+    /**
+     * 根据ID查询用户信息以及用户所在部门
+     * @param id ID
+     * @return 用户信息, 包含用户所在部门
+     * @author shiloh
+     * @date 2022/4/9 21:08
+     */
+    User findByIdJoinDept(@Param("id") Long id);
 }
