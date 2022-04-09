@@ -1,6 +1,7 @@
 package org.shiloh.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @date 2022/4/8 22:38
  */
 @Data
+@ToString(exclude = {"users"})
 public class Dept {
     /**
      * ID
