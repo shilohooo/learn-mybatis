@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.shiloh.mapper.DeptMapper">
+  <resultMap id="deptJoinUserResultMap" type="Dept">
+    <!--
+      id 和 result 标签: 用于处理结果映射, 这2个标签都将一个列的值映射到一个简单数据类型的属性或字段中.
+      不同之处是: id 标签对应的属性会被标记为对象的标识符, 在比较的对象实例时使用. 官方文档中解释这样做
+      的原因是提高整体的性能, 尤其是进行缓存和嵌套结果映射的时候.
+        column 属性: 该属性的值对应的是数据库中的列名, 或者是查询语句中列的别名.一般情况下, 和传递
+        给 resultSet.getString(columnName)方法的参数一样.
+
+        property 属性: 映射到列结果的字段或属性.如果 JavaBean 有这个名字的属性, 会先使用该属性.
+        否则 MyBatis 将会寻找给定名称的字段.无论是哪种情况,都可以使用常见的点式分隔形式进行复杂的属性导航.
+        比如: 映射简单的列 username 到属性 username 中,或者映射复杂的嵌套对象字段: address.street.number.
+
+        javaType 属性: 一个 Java 类的全限定名或类型别名.当映射到一个 JavaBean 时,MyBatis 通常可以推断类型,
+        如果映射到 HashMap,则应该明确地指定 javaType 属性的值,保证 MyBatis 使用正确的类型处理器来处理结果映射.
+
+        jdbcType 属性: JDBC 类型,所支持的 JDBC 类型可以到官方文档中查询: https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#Result_Maps
+        只需要在可能执行插入, 更新和删除的且允许空值的列上指定 JDBC 类型.这是 JDBC 的要求.
+
+        typeHandler 属性: 使用这个属性可以覆盖默认的类型处理器.该属性值是一个类型处理器实现类的全限定名或类型别名.
+    -->
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <!--
+      collection 标签: 一个复杂类型的集合, 通常用于多对多或一对多中多方的嵌套结果映射
+      该集合可以是 resultMap 元素或者对其他结果映射的引用
+        property 属性: 多方在一方或另一个多方中的字段名称
+        ofType: 多方的数据类型, 支持全限定类名和类型别名
+
+      子标签 id, result 用法与 resultMap 一致
+    -->
+    <collection property="users" ofType="User">
+      <!--
+        此处设置 user 表 的 id 列别名是因为该列的名称与主表 dept 的 id列名称一致，
+        如果不设置会导致当多方有多条数据时，只能映射一条数据。
+      -->
+      <id column="user_id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="password" property="password"/>
+      <result column="sex" property="sex"/>
+      <result column="email" property="email"/>
+      <result column="dept_id" property="deptId"/>
+    </collection>
+    <!--
+      collection 标签的另外一种用法: 使用 column 属性和 select 属性进行分步查询
+        column: 作为分步查询的从表关联到主表的列名称
+        select: 引用查询标签的唯一表示: 命名空间+ select 标签的ID
+    -->
+    <!--    <collection property="users" column="id" select="org.shiloh.mapper.UserMapper.findAllByDeptId"/>-->
+  </resultMap>
+  <select id="findByIdJoinUser" parameterType="Long" resultMap="deptJoinUserResultMap">
+    select t_dept.*,
+           t_user.id as user_id,
+           t_user.username,
+           t_user.password,
+           t_user.sex,
+           t_user.email,
+           t_user.dept_id
+    from t_dept
+           left join t_user on t_dept.id = t_user.dept_id
+    where t_dept.id = #{id}
+  </select>
+</mapper>
