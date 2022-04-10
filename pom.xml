@@ -42,6 +42,13 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <java.version>11</java.version>
+
+    <!--    依赖版本定义-->
+    <junit.version>4.13.2</junit.version>
+    <mybatis.version>3.5.9</mybatis.version>
+    <mysql-driver.version>8.0.28</mysql-driver.version>
+    <lombok.version>1.18.22</lombok.version>
+    <log4j.version>1.2.17</log4j.version>
   </properties>
 
   <!--  依赖版本管理-->
@@ -51,7 +58,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13.2</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
       </dependency>
 
@@ -59,20 +66,27 @@
       <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>
-        <version>3.5.9</version>
+        <version>${mybatis.version}</version>
       </dependency>
 
       <!--      mysql driver-->
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.28</version>
+        <version>${mysql-driver.version}</version>
       </dependency>
       <!--      lombok-->
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.22</version>
+        <version>${lombok.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -96,6 +110,11 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
     </dependency>
   </dependencies>
 
