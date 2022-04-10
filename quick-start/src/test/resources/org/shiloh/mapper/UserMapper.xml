@@ -156,4 +156,11 @@
            left join t_dept on t_user.dept_id = t_dept.id
     where t_user.id = #{id}
   </select>
+
+  <!-- 根据部门ID获取所有用户信息 -->
+  <select id="findAllByDeptId" parameterType="Long" resultType="User">
+    select *
+    from t_user
+    where dept_id = #{deptId}
+  </select>
 </mapper>

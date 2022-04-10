@@ -72,10 +72,21 @@ public interface UserMapper {
 
     /**
      * 根据ID查询用户信息以及用户所在部门
+     *
      * @param id ID
      * @return 用户信息, 包含用户所在部门
      * @author shiloh
      * @date 2022/4/9 21:08
      */
     User findByIdJoinDept(@Param("id") Long id);
+
+    /**
+     * 根据部门ID获取所有用户信息
+     *
+     * @param deptId 部门ID
+     * @return 用户列表
+     * @author shiloh
+     * @date 2022/4/10 14:18
+     */
+    List<User> findAllByDeptId(@Param("deptId") Long deptId);
 }
