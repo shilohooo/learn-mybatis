@@ -162,7 +162,8 @@
                 select * from t_dept where t_dept.id = #{dept_id}
 
               - fetchType：可选属性，有效值为 lazy 和 eager。指定该属性后，将在映射中忽略全局配置参数 lazyLoadingEnabled。
-          2.嵌套结果映射：使用嵌套的结果映射来处理关联查询的重复子集
+          2.嵌套结果映射：使用嵌套的结果映射来处理关联查询的重复子集，具体用法为下面的关联数据映射。
+            在嵌套结果映射中，id、result 元素的用法与 resultMap 中一致。
     -->
     <association property="dept" javaType="Dept">
       <id column="id" property="id"/>
