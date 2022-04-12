@@ -142,8 +142,27 @@
     <!--
       association 标签: 通常用于设置一对一关联/多对一关联中的一方的嵌套结果映射
         property 属性: 用于设置一方在多方或另一方中的字段名称
+
         javaType 属性: 用于设置类型, 可以是全限定类名或者类型别名
         标签内的 id, result 子标签用法与 resultMap 一致.
+
+        jdbcType属性：设置 JDBC 类型，支持的 JDBC 类型请查看官网：https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#Result_Maps
+        只需要在可能执行插入、更新和删除的且允许空值的列上指定 JDBC 类型，这是 JDBC 的要求。
+
+        typeHandler 属性：用于覆盖默认的类型处理器，它的值可以是一个类型处理器实现类的全限定名或类型别名。
+
+        MyBatis 有两种不同的方式加载关联数据：
+          1.嵌套 Select 查询：通过执行另外一个 SQL 映射语句来加载想要的关联数据
+            示例：<association property="dept" column="dept_id" javaType="Dept" select="org.shiloh.mapper.DeptMapper.findById"/>
+            属性说明：
+              - column：数据库中的列名，或者是查询语句中列的别名。用于声明关联字段，该字段将会传递给 select 属性指定的映射语句作为查询参数。
+
+              - select：用于加载复杂类型属性的映射语句的ID，它会从 column 属性指定的列中获取数据，作为参数传递给目标查询语句。
+                举例：上述示例 column = dept_id，那么 select 属性指定的映射语句的内容将使用 dept_id 列的值作为参数，最终形成如下 SQL：
+                select * from t_dept where t_dept.id = #{dept_id}
+
+              - fetchType：可选属性，有效值为 lazy 和 eager。指定该属性后，将在映射中忽略全局配置参数 lazyLoadingEnabled。
+          2.嵌套结果映射：使用嵌套的结果映射来处理关联查询的重复子集
     -->
     <association property="dept" javaType="Dept">
       <id column="id" property="id"/>
