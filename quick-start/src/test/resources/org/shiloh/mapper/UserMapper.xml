@@ -178,8 +178,27 @@
   </select>
 
   <!-- 根据部门ID获取所有用户信息 -->
+  <!--
+    自动映射：MyBatis会获取查询结果中的列名，并在 JavaBean 中寻找相同名称的字段（忽略大小写）。
+    比如：获取到了 ID 或 id 列名，则会将 ID / id 列的值赋予 JavaBean 的 id 字段。
+
+    通常数据库列名都有大写字母组成，且每个单词之间使用下划线 _ 分隔，而 JavaBean 的字段命名则遵循由小写字母开头的驼峰命名法约定，
+    为了在这两种命名方式之间启用自动映射，需要将 mapUnderscoreToCamelCase 属性的值设置为 true
+
+    MyBatis 中有三种自动映射等级：
+      1.NONE：代表禁用自动映射，仅对手动映射的属性进行映射。
+      2.PARTIAL：对除了在内部定义了嵌套结果映射（即链接查询）以外的属性进行映射。
+      3.FULL：自动映射所有属性
+    默认的等级是：PARTIAL
+  -->
   <select id="findAllByDeptId" parameterType="Long" resultType="User">
-    select *
+    select id,
+           username,
+           password,
+           sex,
+           email,
+--            开启 mapUnderscoreToCamelCase 后，dept_id 列将自动映射到 deptId 字段
+           dept_id
     from t_user
     where dept_id = #{deptId}
   </select>
