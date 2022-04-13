@@ -35,6 +35,11 @@
   -->
   <properties resource="jdbc.properties"/>
 
+  <settings>
+    <!-- 开启下划线列名自动映射到驼峰命名的功能 -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+
   <!--
     实体类别名配置：
       package标签：以包为作用域配置可以使用别名的实体类有哪些
