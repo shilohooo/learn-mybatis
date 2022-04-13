@@ -187,7 +187,7 @@ public class UserMapperTests {
      */
     @Test
     public void testFindByIdJoinDept() throws Exception {
-// 加载mybatis配置文件
+        // 加载mybatis配置文件
         final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
         // 实例化SqlSessionFactory
         final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
@@ -200,6 +200,30 @@ public class UserMapperTests {
             final User user = userMapper.findByIdJoinDept(1L);
             Assert.assertNotNull(user);
             System.out.println(user);
+        }
+    }
+
+    /**
+     * 测试根据部门ID查询该部门下的所有用户信息
+     *
+     * @author shiloh
+     * @date 2022/4/13 20:46
+     */
+    @Test
+    public void testFindAllByDeptId() throws IOException {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (final SqlSession sqlSession = factory.openSession(true)) {
+            // 从Session中获取Mapper
+            final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            // 执行SQL
+            final List<User> users = userMapper.findAllByDeptId(1L);
+            Assert.assertFalse(users.isEmpty());
+            users.forEach(System.out::println);
         }
     }
 }
