@@ -226,4 +226,34 @@ public class UserMapperTests {
             users.forEach(System.out::println);
         }
     }
+
+    /**
+     * 测试 MyBatis 一级缓存：
+     * MyBatis 默认情况下，只启用了本地的会话缓存，仅对同一个会话中的数据进行缓存。
+     *
+     * @author shiloh
+     * @date 2022/4/14 11:43
+     */
+    @Test
+    public void testLevel1Cache() throws IOException {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (
+                final SqlSession sqlSession = factory.openSession(true);
+                final SqlSession sqlSession1 = factory.openSession(true)
+        ) {
+            // 从Session中获取Mapper
+            final UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            final UserMapper userMapper1 = sqlSession1.getMapper(UserMapper.class);
+            // 执行SQL
+            User user = userMapper.findById(1L);
+            // 重复获取只会执行一条 SQL，若使用不同会话来执行SQL，则一级缓存不会生效
+            user = userMapper1.findById(1L);
+            Assert.assertNotNull(user);
+        }
+    }
 }
