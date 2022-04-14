@@ -29,6 +29,27 @@
       只读的缓存会给所有调用者返回缓存对象的相同实例。
       因此这些对象不能被修改。这就提供了可观的性能提升。
       而可读写的缓存会（通过序列化）返回缓存对象的拷贝。 速度上会慢一些，但是更安全，因此默认值是 false。
+
+      二级缓存是具有事务性的，当 sqlSession 完成并提交事务 或 完成并回滚，但没有执行 flushCache = true 的增删改语句时，缓存会获得更新。
+
+      除了使用 MyBatis 自带的缓存外，还可以自定义缓存：
+      <cache type="xxx.xxx.xxx.MyCustomCache" />
+      type属性指定的类必须实现 org.apache.ibatis.cache.Cache 接口，且提供一个接受 String 参数作为 id 的构造器。
+      需要注意的是， MyBatis 二级缓存可配置的属性（如清除策略、可读或可读写等）不能应用在自定义缓存中。
+
+      缓存的配置和缓存实例会被绑定到 SQL 映射文件的命名空间中。
+      因此，同一命名空间中的所有语句和缓存将通过命名空间绑定在一起。
+      每条语句可以自定义与缓存交互的方式，或将它们完全排除于缓存之外，这可以通过在每条语句上使用两个简单属性来达成。
+      默认情况下，语句会这样来配置：
+      <select flushCache="false" useCache="true">...</select>
+      <insert flushCache="true">...</insert>
+      <update flushCache="true">...</update>
+      <delete flushCache="true">...</delete>
+      可以看到查询语句默认是使用缓存且不刷新缓存的，而增删改语句则默认为刷新缓存。
+      如果想改变默认行为，只需要修改 flushCache、useCache 属性即可。
+
+      如果想要引入其他命名空间的缓存配置，可以使用 cache-ref 标签，例如：
+      <cache-ref namespace="xxx.xxx.xxx.SomeMapper"/>
   -->
   <cache/>
   <!--
