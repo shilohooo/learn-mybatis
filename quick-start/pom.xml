@@ -16,7 +16,6 @@
     <dependency>
       <groupId>org.shiloh</groupId>
       <artifactId>model</artifactId>
-      <version>${parent.version}</version>
     </dependency>
   </dependencies>
 

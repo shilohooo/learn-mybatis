@@ -92,6 +92,12 @@
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.shiloh</groupId>
+        <artifactId>model</artifactId>
+        <version>${version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
