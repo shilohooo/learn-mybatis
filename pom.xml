@@ -13,6 +13,8 @@
   <modules>
     <!--    入门案例-->
     <module>quick-start</module>
+    <!--    动态 SQL-->
+    <module>dynamic-sql</module>
   </modules>
 
   <name>learn-mybatis3</name>
