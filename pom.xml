@@ -97,6 +97,24 @@
         <groupId>org.shiloh</groupId>
         <artifactId>model</artifactId>
         <version>${version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
     </dependencies>
   </dependencyManagement>
