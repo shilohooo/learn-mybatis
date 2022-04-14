@@ -11,6 +11,8 @@
 
   <!--  子模块-->
   <modules>
+    <!--     实体定义-->
+    <module>model</module>
     <!--    入门案例-->
     <module>quick-start</module>
     <!--    动态 SQL-->
