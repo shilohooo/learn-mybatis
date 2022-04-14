@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    author: shiloh
+    date: 2022/4/14 21:48
+    description: 动态 SQL 示例 Mapper
+ -->
+<mapper namespace="org.shiloh.mapper.DynamicSqlMapper">
+  <!--
+    if 标签拼接动态 SQL，如果不传入 fuzzyName 参数，则 SQL 语句不会带有 and username like xxx 条件，如果传入的 fuzzyName为 null
+    或者 空字符串，也不会拼接动态条件。
+  -->
+  <select id="findAllByDeptIdAndUsernameLike" parameterType="String" resultType="User">
+    select id,
+    username,
+    password,
+    sex,
+    email,
+    dept_id
+    from t_user
+    where dept_id = 1
+    <if test="fuzzyUsername != null and fuzzyUsername != ''">
+      and username like concat('%', #{fuzzyUsername}, '%')
+    </if>
+  </select>
+</mapper>
