@@ -21,4 +21,13 @@ public interface DynamicSqlMapper {
      * @date 2022/4/14 21:44
      */
     List<User> findAllByDeptIdAndUsernameLike(@Param("fuzzyUsername") String fuzzyUsername);
+
+    /**
+     * 更新用户信息
+     *
+     * @param user 待更新的用户信息
+     * @author shiloh
+     * @date 2022/4/16 21:16
+     */
+    void updateUser(User user);
 }
