@@ -52,4 +52,19 @@
       </if>
     </trim>
   </select>
+
+  <!--
+    set 标签：可用于构建动态更新数据的 sql 语句，用法如本例所示：
+    只有当 set 标签中的 if 子标签的 test 属性值为 true 时，才会将相应的属性更新。
+  -->
+  <update id="updateUser" parameterType="User">
+    update t_user
+    <set>
+      <if test="username != null and username != ''">username = #{username}, </if>
+      <if test="password != null and password != ''">password = #{password}, </if>
+      <if test="sex != null">sex = #{sex}, </if>
+      <if test="email != null and email != ''">email = #{email} </if>
+    </set>
+    where id = #{id}
+  </update>
 </mapper>
