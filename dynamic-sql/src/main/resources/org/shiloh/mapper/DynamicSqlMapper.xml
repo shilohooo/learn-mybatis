@@ -17,6 +17,9 @@
 
     where标签：在子元素返回任何内容的情况下才插入 where 子句，当第一个条件以 and 或 or 开头，where 标签也会将它们去除。
     使用该方式，无需再提前指定一个固定的 where 条件到 sql 语句中，然后在进行动态 sql 的拼接。
+
+    trim标签：可以用于定制 where 标签的功能，在本例中，设置了前缀为 where，当 if 标签中的条件为 true 时，会在 sql 语句中拼接上 where 子句与条件，
+    且会移除 prefixOverrides 属性匹配到的内容，在本例中会移除 and 或 or 关键字。
   -->
   <select id="findAllByDeptIdAndUsernameLike" parameterType="String" resultType="User">
     select id,
@@ -38,10 +41,15 @@
     <!--        and username is not null;-->
     <!--      </otherwise>-->
     <!--    </choose>-->
-    <where>
+    <!--    <where>-->
+    <!--      <if test="fuzzyUsername != null and fuzzyUsername != ''">-->
+    <!--        username like concat('%', #{fuzzyUsername}, '%')-->
+    <!--      </if>-->
+    <!--    </where>-->
+    <trim prefix="where" prefixOverrides="and|or">
       <if test="fuzzyUsername != null and fuzzyUsername != ''">
-        username like concat('%', #{fuzzyUsername}, '%')
+        and username like concat('%', #{fuzzyUsername}, '%')
       </if>
-    </where>
+    </trim>
   </select>
 </mapper>
