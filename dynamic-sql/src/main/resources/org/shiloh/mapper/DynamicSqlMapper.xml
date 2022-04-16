@@ -11,6 +11,12 @@
   <!--
     if 标签拼接动态 SQL，如果不传入 fuzzyName 参数，则 SQL 语句不会带有 and username like xxx 条件，如果传入的 fuzzyName为 null
     或者 空字符串，也不会拼接动态条件。
+
+    choose、when、otherwise标签，用法类型 Java 的 switch 语句。
+    当传入的 fuzzyUsername 参数不为 null 且不等于空字符串时，就按 username 模糊查询数据，否则就查询所有 username 不为 null 的数据
+
+    where标签：在子元素返回任何内容的情况下才插入 where 子句，当第一个条件以 and 或 or 开头，where 标签也会将它们去除。
+    使用该方式，无需再提前指定一个固定的 where 条件到 sql 语句中，然后在进行动态 sql 的拼接。
   -->
   <select id="findAllByDeptIdAndUsernameLike" parameterType="String" resultType="User">
     select id,
@@ -20,9 +26,22 @@
     email,
     dept_id
     from t_user
-    where dept_id = 1
-    <if test="fuzzyUsername != null and fuzzyUsername != ''">
-      and username like concat('%', #{fuzzyUsername}, '%')
-    </if>
+    <!-- where dept_id = 1 -->
+    <!--    <if test="fuzzyUsername != null and fuzzyUsername != ''">-->
+    <!--      and username like concat('%', #{fuzzyUsername}, '%')-->
+    <!--    </if>-->
+    <!--    <choose>-->
+    <!--      <when test="fuzzyUsername != null and fuzzyUsername != ''">-->
+    <!--        and username like concat('%', #{fuzzyUsername}, '%')-->
+    <!--      </when>-->
+    <!--      <otherwise>-->
+    <!--        and username is not null;-->
+    <!--      </otherwise>-->
+    <!--    </choose>-->
+    <where>
+      <if test="fuzzyUsername != null and fuzzyUsername != ''">
+        username like concat('%', #{fuzzyUsername}, '%')
+      </if>
+    </where>
   </select>
 </mapper>
