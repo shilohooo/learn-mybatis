@@ -44,4 +44,27 @@ public class DynamicSqlMapperTests {
             users.forEach(System.out::println);
         }
     }
+
+    /**
+     * 测试使用动态更新语句更新用户信息
+     *
+     * @author shiloh
+     * @date 2022/4/16 21:26
+     */
+    @Test
+    public void testUpdateUserUsingDynamicSetSyntax() throws IOException {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (final SqlSession sqlSession = factory.openSession(true)) {
+            // 从Session中获取Mapper
+            final DynamicSqlMapper mapper = sqlSession.getMapper(DynamicSqlMapper.class);
+            // 执行 SQL，仅更新姓名、性别和邮箱
+            final User user = new User(1L, "老李头321", null, 1, "lxl@gmail.com", null, null);
+            mapper.updateUser(user);
+        }
+    }
 }
