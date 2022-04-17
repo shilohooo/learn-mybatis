@@ -73,4 +73,49 @@
     </set>
     where id = #{id}
   </update>
+
+  <select id="findAllByIdIn" parameterType="List" resultType="User">
+    select
+    id,
+    username
+    password,
+    sex,
+    email,
+    dept_id
+    from t_user
+    <where>
+      <!--
+        动态 SQL 之：对集合参数进行遍历：
+        使用 where 标签 加 foreach 标签，将集合参数作为查询条件：
+        foreach 标签可以指定一个集合，声明可以在标签内使用的集合项（在本例中是 id ）和索引（在本例中是 index ）变量。
+        还可以指定开头与结尾的字符串以及集合项迭代之间的分隔符（在本例中是逗号 , ）。
+        可以将任何可迭代对象（比如：List、Set等）、Map 对象或者数组对象作为集合参数传递给 foreach 标签。
+        当使用可迭代对象或者数组时，index属性声明的是当前迭代的索引序号，item属性声明的是本次迭代获取到的值。
+        当使用 Map 对象（或者 Map.Entry 对象的集合）时，index属性声明的是 key，item属性则是value。
+
+        foreach 标签的属性：
+          - collection：声明集合参数的变量名称，在本例中对应接口方法的 ids 参数：
+          List<User> findAllByIdIn(@Param("ids") Collection<Long> ids);
+
+          - item：声明每次遍历集合获取到的元素的变量名称
+
+          - index：当使用可迭代对象时，声明的是当前迭代的索引序号的变量名称，当使用 Map 或 Map.Entry 的集合时，
+          声明的是当前的 key 的变量名称
+
+          - open：声明包含集合项的开头字符串，在本例中需要使用 in 查询，所以开头字符串为 "id in ("。
+
+          - close：声明包含集合项的结尾字符串，在本例中是一个右括号 ")"，使之与开头字符串中的左括号匹配。
+
+          - separator：声明分割每个集合项的字符，在本例中使用的是逗号 ","，以逗号分割每个 id 。
+
+          - nullable：是否为空开关，值为 true | false，如果设置为 true，MyBatis 会在遇到 null 时跳过，而不是抛出异常。
+
+        本例最终生成的 SQL 语句示例如下：
+        select * from t_user where id in (1, 2, 3, 4, 5);
+      -->
+      <foreach collection="ids" item="id" index="index" open="id in (" close=")" separator="," nullable="true">
+        #{id}
+      </foreach>
+    </where>
+  </select>
 </mapper>
