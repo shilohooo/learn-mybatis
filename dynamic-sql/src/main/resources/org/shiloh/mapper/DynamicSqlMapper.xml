@@ -48,7 +48,10 @@
     <!--    </where>-->
     <trim prefix="where" prefixOverrides="and|or">
       <if test="fuzzyUsername != null and fuzzyUsername != ''">
-        and username like concat('%', #{fuzzyUsername}, '%')
+        <!-- 使用 bind 标签创建一个变量，并绑定到当前的上下文中 -->
+        <bind name="pattern" value="'%' + fuzzyUsername + '%'"/>
+        <!-- and username like concat('%', #{fuzzyUsername}, '%') -->
+        and username like #{pattern}
       </if>
     </trim>
   </select>
