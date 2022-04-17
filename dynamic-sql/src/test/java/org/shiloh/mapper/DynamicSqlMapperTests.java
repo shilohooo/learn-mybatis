@@ -67,4 +67,29 @@ public class DynamicSqlMapperTests {
             mapper.updateUser(user);
         }
     }
+
+    /**
+     * 测试查询 ID 在给定范围内的用户列表
+     *
+     * @author shiloh
+     * @date 2022/4/17 11:37
+     */
+    @Test
+    public void testFindAllByIdIn() throws IOException {
+        // 加载mybatis配置文件
+        final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        // 实例化SqlSessionFactory
+        final SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                .build(inputStream);
+        // 从工厂中获取SqlSession，并开启事务自动提交
+        try (final SqlSession sqlSession = factory.openSession(true)) {
+            // 从Session中获取Mapper
+            final DynamicSqlMapper mapper = sqlSession.getMapper(DynamicSqlMapper.class);
+            // 执行 SQL
+            final List<Long> ids = List.of(1L, 3L, 5L, 6L);
+            final List<User> users = mapper.findAllByIdIn(ids);
+            Assert.assertFalse(users.isEmpty());
+            users.forEach(System.out::println);
+        }
+    }
 }
