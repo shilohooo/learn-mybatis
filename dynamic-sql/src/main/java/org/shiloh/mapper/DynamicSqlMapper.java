@@ -3,6 +3,7 @@ package org.shiloh.mapper;
 import org.apache.ibatis.annotations.Param;
 import org.shiloh.entity.User;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,4 +31,14 @@ public interface DynamicSqlMapper {
      * @date 2022/4/16 21:16
      */
     void updateUser(User user);
+
+    /**
+     * 查询 ID 在给定范围内的用户列表
+     *
+     * @param ids ID列表
+     * @return 用户列表
+     * @author shiloh
+     * @date 2022/4/17 11:21
+     */
+    List<User> findAllByIdIn(@Param("ids") Collection<Long> ids);
 }
