@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<!--
+  MyBatis 支持的日志实现有：
+    1.SLF4J
+    2.Apache Common Logging
+    3.Log4j 2
+    4.Log4j（从 3.5.9 版本开始废弃）
+    5.JDK Logging
+-->
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
   <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
     <param name="Encoding" value="UTF-8" />
