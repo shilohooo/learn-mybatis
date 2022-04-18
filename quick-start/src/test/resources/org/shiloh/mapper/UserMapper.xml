@@ -85,7 +85,7 @@
   -->
   <sql id="userColumns">
     id
-    , username, password, sex, email
+    , username, password, sex, email, dept_id
   </sql>
   <!--
     MyBatis SQL映射文件中的顶级元素（按定义顺序列出）：
