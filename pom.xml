@@ -17,6 +17,8 @@
     <module>quick-start</module>
     <!--    动态 SQL-->
     <module>dynamic-sql</module>
+    <!--    批量插入-->
+    <module>batch-insert</module>
   </modules>
 
   <name>learn-mybatis3</name>
