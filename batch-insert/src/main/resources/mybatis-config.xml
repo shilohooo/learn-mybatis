@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--
+  MyBatis 配置文件包含了影响 MyBatis 行为的设置和属性，文档顶层结构如下：
+    - configuration（配置：根标签）
+
+      - properties （属性）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#properties
+      - settings （设置）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#settings
+      - typeAliases （类型别名）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+      - typeHandlers （类型处理器）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#typeHandlers
+      - objectFactory （对象工厂）
+        - https://mybatis.org/mybatis-3/zh/configuration.html#objectFactory
+      - plugins （插件配置）
+        - https://mybatis.org/mybatis-3/zh/configuration.html#plugins
+      - environments （环境配置）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#environments
+          - environment（环境变量）
+          - transactionManager （事务管理器）
+          - dataSource （数据源配置）
+      - databaseIdProvider （数据库厂商标识）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#databaseIdProvider
+      - mappers （映射器）
+        - see: https://mybatis.org/mybatis-3/zh/configuration.html#mappers
+-->
+<configuration>
+  <!--
+    加载jdbc数据库链接配置文件：
+      resource属性指定jdbc配置文件的在classpath下的位置
+  -->
+  <properties resource="jdbc.properties"/>
+
+  <settings>
+    <!-- 开启下划线列名自动映射到驼峰命名的功能 -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+
+  <!--
+    实体类别名配置：
+      package标签：以包为作用域配置可以使用别名的实体类有哪些
+  -->
+  <typeAliases>
+    <package name="org.shiloh.entity"/>
+  </typeAliases>
+
+  <!--  环境配置-->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <!--  mapper扫描路径-->
+  <mappers>
+    <package name="org.shiloh.mapper"/>
+  </mappers>
+</configuration>
