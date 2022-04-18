@@ -38,6 +38,13 @@
   <settings>
     <!-- 开启下划线列名自动映射到驼峰命名的功能 -->
     <setting name="mapUnderscoreToCamelCase" value="true"/>
+    <!--
+      指定 MyBatis 使用的日志实现类，可选的 value：SLF4J、LOG4J、LOG4J2、JDK_LOGGING、COMMONS_LOGGING、STDOUT_LOGGING、NO_LOGGING，
+      或者是实现了 org.apache.ibatis.logging.Log 接口，且构造器是以字符串作为参数的类的全限定名。
+      （可以参考：org.apache.ibatis.logging.slf4j.Slf4jImpl.java 类的实现）
+
+    -->
+    <setting name="logImpl" value="LOG4J"/>
   </settings>
 
   <!--
