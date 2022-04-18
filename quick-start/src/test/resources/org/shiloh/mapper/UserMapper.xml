@@ -50,6 +50,8 @@
 
       如果想要引入其他命名空间的缓存配置，可以使用 cache-ref 标签，例如：
       <cache-ref namespace="xxx.xxx.xxx.SomeMapper"/>
+
+      注意：开启缓存后，查询结果对应的实体需要实现 Serializable 接口
   -->
   <cache/>
   <!--
